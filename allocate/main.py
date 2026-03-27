@@ -25,10 +25,11 @@ class NFVOPlugin(AllocateNSSIabc):
 
     def create_vnf_package(self, moi_config):
         url = self.NFVO_URL + "vnfpkgm/v1/vnf_packages/"
+        user_defined_data = {"data": str(moi_config)}
+        if self.parameter.get('node_name'):
+            user_defined_data['node_name'] = self.parameter['node_name']
         data = {
-            "userDefinedData": {
-                "data": str(moi_config)
-            }
+            "userDefinedData": user_defined_data
         }
         create_vnfp = requests.post(url, data=json.dumps(data), headers=self.headers)
         if create_vnfp.status_code == 201:
