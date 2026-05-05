@@ -178,9 +178,10 @@ class NFVOPlugin(AllocateNSSIabc):
     def create_ns_instance(self):
         print("Create Network service Instance ...")
         url = self.NFVO_URL + "nslcm/v1/ns_instances/"
+        ns_instance_name = self.parameter.get('slice_name') or self.ns_descriptor_name
         data = {
             "nsdId": self.ns_descriptor_id,
-            "nsName": self.ns_descriptor_name,
+            "nsName": ns_instance_name,
             "nsDescription": "None"
         }
         create_nsi = requests.post(url, data=json.dumps(data), headers=self.headers)
